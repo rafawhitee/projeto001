@@ -1,11 +1,11 @@
-import { io } from "socket.io-client"
+import { io, Socket } from "socket.io-client"
 
 const webSocketUrl: string = `http://localhost:3333`
 
-const getSocket = () => {
+const getSocket = (): Socket | undefined => {
     const socketIo = io(webSocketUrl)
-    if (socketIo.disconnected)
-        socketIo.on('connection', () => { })
+    if (socketIo && socketIo.disconnected)
+        socketIo.connect()
 
     return socketIo
 }

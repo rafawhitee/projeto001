@@ -30,6 +30,20 @@ app.post('/notificarFront', (req, res) => {
 
 server.listen(3333)
 
-io.on('connection', socket => {
+let clientes = []
+io.on('connection', (socket) => {
     console.log(`Usuário conectado ${socket.id}`)
+    clientes.push(socket)
+
+    io.on('disconnect', () => {
+        console.log('Desconectadando...')
+        let i = clientes.indexOf(socket)
+        clientes.slice(i, 1)
+    })
+
+    io.on('teste', (data) => {
+        console.log('chamou o teste', data)
+    })
+
+    console.log(clientes.length)
 })
