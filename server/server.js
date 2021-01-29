@@ -28,18 +28,18 @@ app.post('/notificarFront', (req, res) => {
     res.status(400).send()
 })
 
-let clientes = []
+let count = 0;
 io.on('connection', (socket) => {
     console.log(`${socket.id} conectado!!!`)
-    clientes.push(socket)
+    count++;
 
-    io.on('disconnect', () => {
+    socket.on('disconnect', () => {
         console.log(`${socket.id} desconectando!!!`)
-        let i = clientes.indexOf(socket)
-        clientes.slice(i, 1)
+        count--;
+        console.log(`Total conectado: ${count}`)
     })
 
-    console.log(`Total conectado: ${clientes.length}`)
+    console.log(`Total conectado: ${count}`)
 })
 
 server.listen(3333)
