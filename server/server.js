@@ -15,7 +15,7 @@ const cors = require('cors')
 
 // Coloca o Express para utilizar CORS
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: false })) // x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({ extended: false })) // application/x-www-form-urlencoded 
 app.use(bodyParser.json()) // application/json
 
 app.post('/notificarFront', (req, res) => {
@@ -28,22 +28,18 @@ app.post('/notificarFront', (req, res) => {
     res.status(400).send()
 })
 
-server.listen(3333)
-
 let clientes = []
 io.on('connection', (socket) => {
-    console.log(`Usuário conectado ${socket.id}`)
+    console.log(`${socket.id} conectado!!!`)
     clientes.push(socket)
 
     io.on('disconnect', () => {
-        console.log('Desconectadando...')
+        console.log(`${socket.id} desconectando!!!`)
         let i = clientes.indexOf(socket)
         clientes.slice(i, 1)
     })
 
-    io.on('teste', (data) => {
-        console.log('chamou o teste', data)
-    })
-
-    console.log(clientes.length)
+    console.log(`Total conectado: ${clientes.length}`)
 })
+
+server.listen(3333)

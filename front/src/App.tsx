@@ -8,21 +8,18 @@ const socket = io('http://localhost:3333')
 
 function App() {
 
-  function conectarWebSocket() {
-    if (socket) {
-      socket.on('notificarFront', (data: any) => {
-        notificar(data)
-      })
+  socket.on('notificarFront', (data: any) => {
+    notificar(data)
+  })
+
+  function teste() {
+    if (socket){
+      console.log(socket)
+      socket.emit('teste', 'olá')
     }
   }
 
-  function teste() {
-    if (socket)
-      socket.emit('teste', 'olá')
-  }
-
-  conectarWebSocket()
-
+  
   return (
     <Container maxWidth='md'>
       <Button variant="contained" color="secondary" onClick={teste}>
