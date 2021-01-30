@@ -1,7 +1,13 @@
+// Requires das Libs
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const server = require('http').Server(app)
+
+// Imports dos Resources
+const NotificationResource = require('./resources/Notification')
+const ToastResource = require('./resources/Toast')
+const ZoomResource = require('./resources/Zoom')
 
 // Configura o IO com Cors permitindo apenas para localhost:3000
 const io = require('socket.io')(server, {
@@ -12,22 +18,26 @@ const io = require('socket.io')(server, {
 
 // Para colocar CORS nos serviços
 const cors = require('cors')
-
-// Coloca o Express para utilizar CORS
 app.use(cors())
+
+// Para poder pegar o body do Request
 app.use(bodyParser.urlencoded({ extended: false })) // application/x-www-form-urlencoded 
 app.use(bodyParser.json()) // application/json
 
-app.post('/notificarFront', (req, res) => {
-    console.log(req.body);
-    let mensagem = req.body.mensagem
-    if (mensagem) {
-        io.emit('notificarFront', mensagem)
-        res.status(200).send()
-    }
-    res.status(400).send()
+// Resources de Notificar
+app.post('/notificarFront', (req, res) => { 
+    return NotificationResource.notificarFront(io, req, res)
 })
 
+// Resources de Toast (react-toast)
+app.post('/toastFront', (req, res) => { 
+    return ToastResource.toastFront(io, req, res)
+})
+
+// Zoom
+app.get('/zoom/users', ZoomResource.getUsers)
+
+// Regrasdo Socket IO
 let count = 0;
 io.on('connection', (socket) => {
     console.log(`${socket.id} conectado!!!`)
@@ -42,4 +52,5 @@ io.on('connection', (socket) => {
     console.log(`Total conectado: ${count}`)
 })
 
+// Sobe o servidor na porta 3333
 server.listen(3333)
