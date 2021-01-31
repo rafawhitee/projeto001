@@ -36,8 +36,12 @@ app.post('/toastFront', (req, res) => {
 
 // Zoom
 app.get('/zoom/users', ZoomResource.getUsers)
+app.get('/zoom/meet', ZoomResource.getMeets)
+app.get('/zoom/meet/{idMeet}', ZoomResource.getMeetById)
+app.post('/zoom/meet', ZoomResource.createMeet)
+app.delete('/zoom/meet/{idMeet}', ZoomResource.deleteMeetById)
 
-// Regrasdo Socket IO
+// Regras do Socket IO
 let count = 0;
 io.on('connection', (socket) => {
     console.log(`${socket.id} conectado!!!`)

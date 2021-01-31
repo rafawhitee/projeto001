@@ -1,4 +1,4 @@
-export default interface Toast {
+export default interface ToastDTO {
     tipo: string;
     mensagem: string;
 }
