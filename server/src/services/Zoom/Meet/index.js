@@ -57,6 +57,7 @@ const getMeets = (idUser) => {
     return new Promise(async (resolve, reject) => {
         try {
             const url = `https://api.zoom.us/v2/users/${idUser}/meetings`
+            console.log(url, Config.jwt);
             const response = await axios.get(url, {
                 headers: { 'Authorization': `Bearer ${Config.jwt}` }
             })

@@ -1,3 +1,14 @@
+/* Declaramento de Variáveis para o CSS */
+:root {
+  --color-primary: #17aa04;
+  --color-secondary: #00dbd0;
+  --text-color-primary: #ffffff;
+  --text-color-secundary: #a0a0a0;
+  --color-contrast-text: #ededed;
+  --scroll-color-primary: var(--color-primary);
+  --scroll-color-secondary: #ededed;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

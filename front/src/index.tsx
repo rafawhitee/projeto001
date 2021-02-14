@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import { io } from 'socket.io-client'
 import ToastDTO from './model/ToastDTO'
 import { notificar } from './utils/Notification'
+import theme from "./theme"
+import { MuiThemeProvider } from '@material-ui/core'
 
 const optionsToastContainer = {
   position: toast.POSITION.BOTTOM_LEFT,
@@ -21,7 +23,7 @@ const optionsToastContainer = {
   pauseOnHover: false,
 }
 
-const socket = io(process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : '')
+const socket = io('https://testeapi.ngrok.io')
 
 socket.on('notificarFront', (mensagem: string) => {
   notificar(mensagem)
@@ -40,8 +42,10 @@ socket.on('toastFront', (toastDto: ToastDTO) => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <ToastContainer {...optionsToastContainer} />
-    <App />
+    <MuiThemeProvider theme={theme}>
+      <ToastContainer {...optionsToastContainer} />
+      <App />
+    </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

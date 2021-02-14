@@ -12,7 +12,7 @@ const ZoomResource = require('./resources/Zoom')
 // Configura o IO com Cors permitindo apenas para localhost:3000
 const io = require('socket.io')(server, {
     cors: {
-        origins: ['http://localhost:3000']
+        origins: ['https://minhaaplicacao.com.br']
     }
 })
 
@@ -26,11 +26,13 @@ app.use(bodyParser.json()) // application/json
 
 // Resources de Notificar
 app.post('/notificarFront', (req, res) => { 
+    console.log(req.body)
     return NotificationResource.notificarFront(io, req, res)
 })
 
 // Resources de Toast (react-toast)
 app.post('/toastFront', (req, res) => { 
+    console.log(req.body)
     return ToastResource.toastFront(io, req, res)
 })
 
@@ -40,6 +42,9 @@ app.get('/zoom/meet', ZoomResource.getMeets)
 app.get('/zoom/meet/{idMeet}', ZoomResource.getMeetById)
 app.post('/zoom/meet', ZoomResource.createMeet)
 app.delete('/zoom/meet/{idMeet}', ZoomResource.deleteMeetById)
+
+// Sobe o servidor na porta 3333
+server.listen(3333)
 
 // Regras do Socket IO
 let count = 0;
@@ -55,6 +60,3 @@ io.on('connection', (socket) => {
 
     console.log(`Total conectado: ${count}`)
 })
-
-// Sobe o servidor na porta 3333
-server.listen(3333)
